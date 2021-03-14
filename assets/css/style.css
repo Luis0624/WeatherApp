@@ -1,0 +1,64 @@
+/* :root {
+    --primarybg: #92929296;
+    --secondarybg: #7e7e7ea1;
+} */
+
+h1 {
+    color: gold;
+    text-shadow: 3px 4px 9px rgb(226, 226, 88);
+}
+body {
+    background-image: url(../images/planetPicture.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 1.25rem;
+}
+
+.btn-primary {
+    background-color: #4154b4;
+    border-color: #4154b4;
+}
+
+.btn-color {
+   background-color:gold;
+   color: black;
+}
+
+.btn-danger {
+    background-color: #b44141;
+    border-color: #b44141;
+}
+
+
+.card {
+    background-color:rgba(199, 199, 80, 0.2);
+    border:5px double gold;
+    border-radius: 6px;
+    color: #ffffff;
+}
+
+.UVindex-low {
+    color: white;
+    background-color: green;
+}
+
+.UVindex-med {
+    color: white;
+    background-color: orange;
+}
+
+.UVindex-high {
+    color: white;
+    background-color: red;
+}
+
+.forecast {
+    background-color: var(--primarybg);
+    padding: 1vh;
+    border-radius: 10px;    
+}
+
+.forecast-title {
+    color: gold;
+    text-shadow: 3px 4px 9px rgb(226, 226, 88);
+}
