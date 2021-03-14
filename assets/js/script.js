@@ -1,7 +1,5 @@
-// Query selectors for existing elements on the page
 let searchAreaEl= document.querySelector(".searchArea");
 let submitButtonEl = document.querySelector(".submitSearch");
-// let searchHistoryEl = document.querySelector(".search-history");
 let currentWeatherEl = document.querySelector(".currentWeather");
 var apiKey = "b04af3f011ed66d16375944498e2e4d9";
 
@@ -24,11 +22,11 @@ function buildForecast(){
     forecastHeader.appendChild(buildHTML("h4", "forecast-title d-flex flex-column align-items-center", "Your 5-Day Forecast"));
     
     for (let i = 1; i < 6; i++){
-        let forecastCard = buildHTML("div", "card d-flex flex-column align-items-center m-2");
+        let forecastCard = buildHTML("div", "card d-flex flex-column align-items-center col-6 col-lg-8 m-2");
         forecastCard.setAttribute("style", "width: 15rem;");
         forecast.appendChild(forecastCard);
 
-        // Convert the Unix timestamps in requestedWeatherData to YYYY-MM-DD
+        // Convert the timestamps to YYYY-MM-DD
         let forecastDateRaw = new Date(requestedWeatherData.dailyForecast[i].dt*1000);
         let forecastDate = forecastDateRaw.toLocaleDateString("en");
 
@@ -45,11 +43,11 @@ function buildForecast(){
 }
 // Function to build city weather card
 function buildWeatherDiv(){
-    let selectedCity = buildHTML("section", "col-12 col-lg-5 selected-city");
+    let selectedCity = buildHTML("div", "col-12 col-lg-8 selected-city");
     currentWeatherEl.appendChild(selectedCity);
     let card = buildHTML("div", "card");
     selectedCity.appendChild(card);
-    let cardBody = buildHTML("div", "card-body d-flex flex-column align-items-space-evenly");
+    let cardBody = buildHTML("div", "card-body d-flex flex-column justify-content-center");
     card.appendChild(cardBody);
 
     cardBody.appendChild(buildHTML("h2", "card-title", `${requestedWeatherData.cityName}`));
@@ -67,11 +65,11 @@ function buildWeatherDiv(){
     cardBody.appendChild(buildHTML("p", "humidity", `Humidity: ${requestedWeatherData.currentHumidity}`));
     cardBody.appendChild(buildHTML("p", "windspeed", `Wind Speed: ${requestedWeatherData.currentWind}`));
 
-    let uvClass = requestedWeatherData.currentUVI <= 3 ? "UVindex-low p-2" : requestedWeatherData.currentUVI <= 7 ? "UVindex-med p-2" : "UVindex-high p-2";
-    cardBody.appendChild(buildHTML("p", uvClass, `UV Index: ${requestedWeatherData.currentUVI}`));
+    let uvIndex = requestedWeatherData.currentUVI <= 3 ? "UVindex-low p-2" : requestedWeatherData.currentUVI <= 7 ? "UVindex-med p-2" : "UVindex-high p-2";
+    cardBody.appendChild(buildHTML("p", uvIndex, `UV Index: ${requestedWeatherData.currentUVI}`));
 }
 
-// Helper function to create HTML elements
+//function to create HTML elements
 function buildHTML(tag, classes, text){
     const element = document.createElement(tag);
     element.className = classes;
@@ -79,7 +77,7 @@ function buildHTML(tag, classes, text){
     return element;
 }
 
-// Async function to fetch all the weather data we need
+// Async function to get the weather data we need
 async function callWeather(location){
     // Fetch Current Weather API
     let currentWeatherData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`);
@@ -93,7 +91,7 @@ async function callWeather(location){
     let oneCallAPI = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=current,minutely,hourly,alerts&appid=${apiKey}`)
     let oneCallJSON = await oneCallAPI.json();
 
-    // Build Object with all the data we need for our app
+    // Build Object with all the data we need
     requestedWeatherData = {
         cityName: weatherJSON.name,
         currentDate: new Date(weatherJSON.dt*1000),
@@ -101,7 +99,7 @@ async function callWeather(location){
         currentHumidity: `${weatherJSON.main.humidity}%`,
         currentWind: `${weatherJSON.wind.speed} km/h`,
         currentUVI: oneCallJSON.daily[0].uvi,
-        dailyForecast: oneCallJSON.daily // Don't forget index 0 is today!
+        dailyForecast: oneCallJSON.daily
     }
 }
 
